@@ -22,7 +22,8 @@ module Sosowa
     end
     
     def fetch(log, key)
-      @page =  @agent.get("#{Sosowa::BASE_URL}/?mode=read&log=#{log}&key=#{key}")
+      params = Sosowa.serialize_parameter({:mode => :read, :log => log, :key => key})
+      @page = @agent.get(URI.join(Sosowa::BASE_URL, params))
       tags = (@page/%{dl[@class="info"][1] > dd > a}).map{|t| t.inner_html.to_s.toutf8 }
       text = (@page/%{div[@class="contents ss"]})[0].inner_html.to_s.toutf8
       ps = (@page/%{div[@class="aft"]})[0].inner_html.to_s.toutf8
@@ -77,6 +78,10 @@ module Sosowa
       form.field_with(:name => "mail").value = params[:mail] || nil
       form.field_with(:name => "point").option_with(:value => (params[:point].to_s || "0")).select
       form.click_button
+    end
+    
+    def plain
+      return @element[:text].gsub(/(<br>|\r?\n)/, "")
     end
   end
   
