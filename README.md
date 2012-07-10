@@ -22,6 +22,9 @@ Sosowa Parser for Ruby 1.9.x
 	# 作品集番号156の1320873807を持ってくる
 	novel = Sosowa.get(:log => 156, :key => 1320873807)
 	puts novel.text
+	
+	# "ナズーリン"がタイトルに含まれているSSの数を出力する
+	puts Sosowa.search("ナズーリン", :type => :title).size
 
 ## Contributing
 
