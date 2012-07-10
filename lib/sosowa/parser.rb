@@ -6,8 +6,18 @@ module Sosowa
       @agent.user_agent = "Sosowa Ruby #{Sosowa::VERSION}"
     end
     
+    def search(query, args={})
+      params = Sosowa.serialize_parameter({:mode => :search, :type => (args[:type] ? args[:type] : :insubject), :query => query.tosjis})
+      parse_index(URI.join(Sosowa::BASE_URL, params))
+    end
+    
     def fetch_index(log)
-      page = @agent.get("#{Sosowa::BASE_URL}/?log=#{log}")
+      params = Sosowa.serialize_parameter({:log => log})
+      parse_index(URI.join(Sosowa::BASE_URL, params))
+    end
+    
+    def parse_index(url)
+      page = @agent.get(url)
       indexes = []
       tr = page.search("tr")
       tr = tr[1, tr.size-1]
@@ -19,6 +29,7 @@ module Sosowa
         else
           title = tr.search(%{td[@class="title cell_title"] > a}).inner_html.to_s.toutf8.strip
           tags = tr.search(%{td[@class="title cell_title"] > a})[0].attributes["title"].value.split(" / ")
+          log = tr.search(%{td[@class="title cell_title"] > a})[0].attributes["href"].value.gsub(/log=(\d+)$/, '\1').to_i
           key = tr.search(%{td[@class="title cell_title"] > a})[0].attributes["href"].value.gsub(/^.+key=(.+?)&.+$/, '\1').to_i
           author = tr.search(%{td[@class="cell_author"]}).inner_html.to_s.toutf8.strip
           created_at = Time.parse(tr.search(%{td[@class="cell_created"]}).inner_html.to_s.toutf8.strip)
