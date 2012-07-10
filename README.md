@@ -2,6 +2,11 @@
 
 Sosowa Parser for Ruby 1.9.x
 
+## Requirements
+
+* Ruby 1.9.x
+* mechanize gem
+
 ## Installation
 
 	gem install sosowa
