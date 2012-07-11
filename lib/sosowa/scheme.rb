@@ -2,6 +2,10 @@ module Sosowa
   class Scheme
     protected
     
+    def initialize(element)
+      @element = element
+    end
+    
     def method_missing(action, *args)
       return @element[action.to_s.to_sym] rescue nil
     end
@@ -24,6 +28,7 @@ module Sosowa
     def fetch(log, key)
       params = Sosowa.serialize_parameter({:mode => :read, :log => log, :key => key})
       @page = @agent.get(URI.join(Sosowa::BASE_URL, params))
+      title = (@page/%{div[@class="header"] > h1})[0].inner_html.to_s.toutf8.strip
       tags = (@page/%{dl[@class="info"][1] > dd > a}).map{|t| t.inner_html.to_s.toutf8 }
       text = (@page/%{div[@class="contents ss"]})[0].inner_html.to_s.toutf8
       ps = (@page/%{div[@class="aft"]})[0].inner_html.to_s.toutf8
@@ -48,6 +53,7 @@ module Sosowa
         comments << comment
       end
       novel = {
+        :title => title,
         :text => text,
         :ps => ps,
         :author => author,
@@ -93,12 +99,7 @@ module Sosowa
     
   end
   
-  class Index < Scheme
-    def initialize(element)
-      super(@element)
-      @element = element
-    end
-    
+  class Index < Scheme    
     def fetch
       Novel.new(:log => @element[:log], :key => @element[:key])
     end

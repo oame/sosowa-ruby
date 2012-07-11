@@ -10,6 +10,8 @@ require "sosowa/parser"
 
 module Sosowa
   BASE_URL = "http://coolier.sytes.net:8080/sosowa/ssw_l/"
+
+  protected
   
   # @param [Hash] parameter
   # @return [String] URL Serialized parameters
@@ -22,6 +24,8 @@ module Sosowa
     param = ant.inject(""){|k,v|k+"&#{v[0]}=#{URI.escape(v[1])}"}.sub!(/^&/,"?")
     return param ? param : ""
   end
+
+  public
   
   def self.get(args={})
     args[:log] ||= 0

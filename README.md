@@ -1,6 +1,7 @@
 # Sosowa
 
-Sosowa Parser for Ruby 1.9.x
+創想話パーサー for Ruby 1.9.x
+samples/に各種サンプルが入っています。
 
 ## Requirements
 
