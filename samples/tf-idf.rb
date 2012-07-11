@@ -1,39 +1,12 @@
 #!/usr/bin/env ruby
 # coding: utf-8
 # 創想話の最新版から適当なSSのテキストを取得してMeCab(+ 東方MeCab辞書)を用いて代表キーワード候補を名詞限定で選出し、TF-IDF法による特徴語抽出を行います。
-# 注意: ugigi gemが必要です
+# 注意: ugigi gemとmecab-modern gemが必要です
 
-require "MeCab"
+require "mecab-modern"
 require "kconv"
 require "sosowa"
 require "ugigi"
-
-module MeCab
-  class Tagger
-    alias_method :parseToNode_org, :parseToNode
-    private :parseToNode_org
-
-    def parseToNode(*args)
-      node = parseToNode_org(*args)
-      nodes = []
-      while node
-        nodes.push(node)
-        node = node.next
-      end
-      return nodes[1, nodes.size - 2]
-    end
-  end
-  
-  class Node
-    alias_method :feature_org, :feature
-    alias_method :surface_org, :surface
-    private :feature_org
-    private :surface_org
-    
-    def feature ; feature_org.toutf8 end
-    def surface ; surface_org.toutf8 end
-  end
-end
 
 puts "東方MeCab辞書をダウンロード中..."
 system("curl -L https://github.com/oame/thdic-mecab/raw/master/pkg/thdic-mecab.dic > thdic-mecab.dic")
