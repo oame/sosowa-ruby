@@ -1,6 +1,6 @@
 # Sosowa
 
-創想話パーサー for Ruby 1.9.x
+創想話パーサー for Ruby 1.9.x<br>
 samples/に各種サンプルが入っています。
 
 ## Requirements
