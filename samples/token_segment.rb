@@ -7,7 +7,7 @@ require "mecab-modern"
 require "sosowa"
 
 puts "Fetching thdic-mecab..."
-system("curl -L https://github.com/oame/thdic-mecab/raw/master/pkg/thdic-mecab.dic > thdic-mecab.dic")
+system("curl -L https://github.com/oame/thdic-mecab/raw/master/pkg/thdic-mecab.dic > thdic-mecab.dic") unless FileTest.exists? "thdic-mecab.dic"
 
 puts "Done. Initialize MeCab::Tagger"
 mecab = MeCab::Tagger.new("-u thdic-mecab.dic")

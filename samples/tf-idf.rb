@@ -9,7 +9,7 @@ require "sosowa"
 require "ugigi"
 
 puts "東方MeCab辞書をダウンロード中..."
-system("curl -L https://github.com/oame/thdic-mecab/raw/master/pkg/thdic-mecab.dic > thdic-mecab.dic")
+system("curl -L https://github.com/oame/thdic-mecab/raw/master/pkg/thdic-mecab.dic > thdic-mecab.dic") unless FileTest.exists? "thdic-mecab.dic"
 
 puts "完了. MeCab::Taggerを初期化します"
 mecab = MeCab::Tagger.new("-u thdic-mecab.dic")
