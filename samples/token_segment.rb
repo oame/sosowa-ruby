@@ -12,7 +12,7 @@ system("curl -L https://github.com/oame/thdic-mecab/raw/master/pkg/thdic-mecab.d
 puts "Done. Initialize MeCab::Tagger"
 mecab = MeCab::Tagger.new("-u thdic-mecab.dic")
 
-text = Sosowa.get.sample.fetch.text.gsub(/(<br>|\r?\n)/, "")
+text = Sosowa.get.sample.fetch.text.plain
 tokens = mecab.parseToNode(text)
 tokens.each do |token|
   puts token.feature
