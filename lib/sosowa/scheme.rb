@@ -39,18 +39,20 @@ module Sosowa
       review = header[3][1].split("/")
       comments = []
       comment_element = (@page/%{div[@class="comments"] > dl > *})
-      comment_element[1, comment_element.size-1].each_slice(2) do |element|
-        bobj = element[0].search("b").map{|n| n.inner_html.to_s.toutf8.strip}
-        point = element[0].search("span").inner_html.to_s.toutf8.to_i
-        id = element[0].inner_html.to_s.toutf8.split(/\r?\n/).map{|n| n.strip}[1].to_i
-        comment = Comment.new(
-          :id => id,
-          :point => point,
-          :name => bobj[0],
-          :created_at => Time.parse(bobj[1].gsub(/[^\/\d\s:]/, "")),
-          :text => element[1].inner_html.to_s.toutf8.strip
-        )
-        comments << comment
+      if comment_element.size > 0
+        comment_element[1, comment_element.size-1].each_slice(2) do |element|
+          bobj = element[0].search("b").map{|n| n.inner_html.to_s.toutf8.strip}
+          point = element[0].search("span").inner_html.to_s.toutf8.to_i
+          id = element[0].inner_html.to_s.toutf8.split(/\r?\n/).map{|n| n.strip}[1].to_i
+          comment = Comment.new(
+            :id => id,
+            :point => point,
+            :name => bobj[0],
+            :created_at => Time.parse(bobj[1].gsub(/[^\/\d\s:]/, "")),
+            :text => element[1].inner_html.to_s.toutf8.strip
+            )
+          comments << comment
+        end
       end
       novel = {
         :title => title,
@@ -92,11 +94,11 @@ module Sosowa
   end
   
   class Comment < Scheme
-    
+
   end
   
   class Author < Scheme
-    
+
   end
   
   class Index < Scheme    
@@ -104,5 +106,27 @@ module Sosowa
       Novel.new(:log => @element[:log], :key => @element[:key])
     end
     alias_method :get, :fetch
+  end
+
+  class Log < Array
+    attr_reader :log
+
+    def initialize(page, log=0)
+      @page = page
+      @log = log
+      super(page)
+    end
+
+    def next_page
+      parser = Parser.new
+      parser.fetch_index(@log-1)
+    end
+    alias_method :next, :next_page
+
+    def prev_page
+      parser = Parser.new
+      parser.fetch_index(@log+1)
+    end
+    alias_method :prev, :prev_page
   end
 end

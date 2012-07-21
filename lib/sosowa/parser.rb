@@ -8,16 +8,29 @@ module Sosowa
     
     def search(query, args={})
       params = Sosowa.serialize_parameter({:mode => :search, :type => (args[:type] ? args[:type] : :insubject), :query => query.tosjis})
-      parse_index(URI.join(Sosowa::BASE_URL, params))
+      parse_index(@agent.get(URI.join(Sosowa::BASE_URL, params)))
     end
     
     def fetch_index(log)
       params = Sosowa.serialize_parameter({:log => log})
-      parse_index(URI.join(Sosowa::BASE_URL, params))
+      page = @agent.get(URI.join(Sosowa::BASE_URL, params))
+      indexes = parse_index(page)
+      abs_log_num = parse_absolute_log_number(page)
+      Log.new(indexes, abs_log_num)
+    end
+
+    def parse_absolute_log_number(page)
+      li = page.search(%{ul[@id="pages"] li > *})
+      log = li.size
+      li.each do |l|
+        if l.attributes["id"] && l.attributes["id"].value == "selectedPage"
+          return log
+        end
+        log -= 1
+      end
     end
     
-    def parse_index(url)
-      page = @agent.get(url)
+    def parse_index(page)
       indexes = []
       tr = page.search("tr")
       tr = tr[1, tr.size-1]
