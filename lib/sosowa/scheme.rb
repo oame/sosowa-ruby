@@ -1,19 +1,23 @@
+# coding: utf-8
+
 module Sosowa
   class Scheme
-    protected
+    attr_reader :element
     
     def initialize(element)
-      @element = element
+      @element = element  
     end
     
     def method_missing(action, *args)
       return @element[action.to_s.to_sym] rescue nil
     end
     
-    public
-    
     def params() @element.keys.map{|k|k.to_sym} ; end
     alias_method :available_methods, :params
+    
+    def to_hash
+      @element
+    end
   end
   
   class Novel < Scheme
@@ -22,7 +26,7 @@ module Sosowa
       @key = args[:key]
       @agent = Mechanize.new
       @page = nil
-      @element = fetch(@log, @key)
+      super(fetch(@log, @key))
     end
     
     def fetch(log, key)
@@ -31,7 +35,8 @@ module Sosowa
       title = (@page/%{div[@class="header"] > h1})[0].inner_html.to_s.toutf8.strip
       tags = (@page/%{dl[@class="info"][1] > dd > a}).map{|t| t.inner_html.to_s.toutf8 }
       text = (@page/%{div[@class="contents ss"]})[0].inner_html.to_s.toutf8
-      ps = (@page/%{div[@class="aft"]})[0].inner_html.to_s.toutf8
+      aft = @page/%{div[@class="aft"]}
+      ps = (aft.size > 0) ? aft[0].inner_html.to_s.toutf8 : ""
       author_name = (@page/%{div[@class="author"] b})[0].inner_html.to_s.toutf8
       author_email, author_website = (@page/%{div[@class="author"] a}).map{|e| e.attributes["href"].value}
       author = Author.new(:name => author_name, :email => (author_email ? author_email.gsub(/^mailto:/, "") : nil), :website => author_website)
@@ -50,7 +55,7 @@ module Sosowa
             :name => bobj[0],
             :created_at => Time.parse(bobj[1].gsub(/[^\/\d\s:]/, "")),
             :text => element[1].inner_html.to_s.toutf8.strip
-            )
+          )
           comments << comment
         end
       end
@@ -94,11 +99,11 @@ module Sosowa
   end
   
   class Comment < Scheme
-
+    
   end
   
   class Author < Scheme
-
+    
   end
   
   class Index < Scheme    
@@ -108,13 +113,12 @@ module Sosowa
     alias_method :get, :fetch
   end
 
-  class Log < Array
+  class Log < Scheme
     attr_reader :log
-
-    def initialize(page, log=0)
-      @page = page
+    
+    def initialize(element, log=0)
+      super(element)
       @log = log
-      super(page)
     end
 
     def next_page

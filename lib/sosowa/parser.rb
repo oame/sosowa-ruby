@@ -1,3 +1,5 @@
+# coding: utf-8
+
 module Sosowa
   class Parser    
     
@@ -42,7 +44,8 @@ module Sosowa
         else
           title = tr.search(%{td[@class="title cell_title"] > a}).inner_html.to_s.toutf8.strip
           tags = tr.search(%{td[@class="title cell_title"] > a})[0].attributes["title"].value.split(" / ")
-          log = tr.search(%{td[@class="title cell_title"] > a})[0].attributes["href"].value.gsub(/log=(\d+)$/, '\1').to_i
+          #log = tr.search(%{td[@class="title cell_title"] > a})[0].attributes["href"].value.gsub(/log=(\d+)$/, '\1').to_i
+          log = parse_absolute_log_number(page)
           key = tr.search(%{td[@class="title cell_title"] > a})[0].attributes["href"].value.gsub(/^.+key=(.+?)&.+$/, '\1').to_i
           author = tr.search(%{td[@class="cell_author"]}).inner_html.to_s.toutf8.strip
           created_at = Time.parse(tr.search(%{td[@class="cell_created"]}).inner_html.to_s.toutf8.strip)
