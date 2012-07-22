@@ -18,7 +18,7 @@ module Sosowa
       page = @agent.get(URI.join(Sosowa::BASE_URL, params))
       indexes = parse_index(page)
       abs_log_num = parse_absolute_log_number(page)
-      Log.new(indexes, abs_log_num)
+      Log.new(indexes, page, abs_log_num)
     end
 
     def parse_absolute_log_number(page)
@@ -30,6 +30,11 @@ module Sosowa
         end
         log -= 1
       end
+    end
+    
+    def parse_latest_log_number(page)
+      li = page.search(%{ul[@id="pages"] li > *})
+      return li.size
     end
     
     def parse_index(page)

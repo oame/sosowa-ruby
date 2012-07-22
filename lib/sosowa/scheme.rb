@@ -113,11 +113,14 @@ module Sosowa
     alias_method :get, :fetch
   end
 
-  class Log < Scheme
+  class Log < Array
+    attr_reader :element
     attr_reader :log
     
-    def initialize(element, log=0)
+    def initialize(element, page, log=0)
       super(element)
+      @element = element
+      @page = page
       @log = log
     end
 
@@ -132,5 +135,10 @@ module Sosowa
       parser.fetch_index(@log+1)
     end
     alias_method :prev, :prev_page
+    
+    def latest_log
+      parser = Parser.new
+      parser.parse_latest_log_number(@page)
+    end
   end
 end
