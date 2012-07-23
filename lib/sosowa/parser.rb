@@ -49,7 +49,6 @@ module Sosowa
         else
           title = tr.search(%{td[@class="title cell_title"] > a}).inner_html.to_s.toutf8.strip
           tags = tr.search(%{td[@class="title cell_title"] > a})[0].attributes["title"].value.split(" / ")
-          #log = tr.search(%{td[@class="title cell_title"] > a})[0].attributes["href"].value.gsub(/log=(\d+)$/, '\1').to_i
           log = parse_absolute_log_number(page)
           key = tr.search(%{td[@class="title cell_title"] > a})[0].attributes["href"].value.gsub(/^.+key=(.+?)&.+$/, '\1').to_i
           author = tr.search(%{td[@class="cell_author"]}).inner_html.to_s.toutf8.strip
@@ -61,6 +60,7 @@ module Sosowa
           point = tr.search(%{td[@class="cell_point"]}).inner_html.to_s.toutf8.strip.to_i
           rate = tr.search(%{td[@class="cell_rate"]}).inner_html.to_s.toutf8.strip.to_f
           size = tr.search(%{td[@class="cell_size"]}).inner_html.to_s.toutf8.strip
+          url = tr.search(%{td[@class="title cell_title"] > a})[0].attributes["href"].value
           index = {
             :log => log,
             :key => key,
@@ -73,7 +73,8 @@ module Sosowa
             :point => point,
             :tags => tags,
             :rate => rate,
-            :size => size
+            :size => size,
+            :url => URI.join(Sosowa::BASE_URL, "?mode=read&key=#{key}&log=#{log}").to_s
           }
           indexes << Index.new(index)
         end

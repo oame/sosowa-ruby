@@ -114,7 +114,7 @@ module Sosowa
   end
 
   class Log < Array
-    attr_reader :element
+    attr_accessor :element
     attr_reader :log
     
     def initialize(element, page, log=0)

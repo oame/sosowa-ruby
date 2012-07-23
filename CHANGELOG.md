@@ -1,3 +1,6 @@
+## 0.5.1
+* バグ修正
+
 ## 0.5
 * Sosowa::LogをArrayを継承したクラスに変更。Log.size等使えるようになりました
 * Sosowa::Log#latest_logを追加
