@@ -10,9 +10,9 @@ puts "Fetching thdic-mecab..."
 system("curl -L https://github.com/oame/thdic-mecab/raw/master/pkg/thdic-mecab.dic > thdic-mecab.dic") unless FileTest.exists? "thdic-mecab.dic"
 
 puts "Done. Initialize MeCab::Tagger"
-mecab = MeCab::Tagger.new("-u thdic-mecab.dic")
+mecab = MeCab::Tagger.new#("-u thdic-mecab.dic")
 
-text = Sosowa.get.sample.fetch.text.plain
+text = Sosowa.get.sample.fetch.plain
 tokens = mecab.parseToNode(text)
 tokens.each do |token|
   puts token.feature
