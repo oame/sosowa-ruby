@@ -48,7 +48,7 @@ module Sosowa
           #indexes[num-1] << tags
         else
           title = tr.search(%{td[@class="title cell_title"] > a}).inner_html.to_s.toutf8.strip
-          tags = tr.search(%{td[@class="title cell_title"] > a})[0].attributes["title"].value.split(" / ")
+          tags = tr.search(%{td[@class="title cell_title"] > a})[0].attributes["title"].value.split(" / ").reject{|n| n == ""}
           log = parse_absolute_log_number(page)
           key = tr.search(%{td[@class="title cell_title"] > a})[0].attributes["href"].value.gsub(/^.+key=(.+?)&.+$/, '\1').to_i
           author = tr.search(%{td[@class="cell_author"]}).inner_html.to_s.toutf8.strip
