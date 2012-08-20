@@ -34,7 +34,11 @@ module Sosowa
       @page = @agent.get(URI.join(Sosowa::BASE_URL, params))
       title = (@page/%{div[@class="header"] > h1})[0].inner_html.to_s.toutf8.strip
       tags = (@page/%{dl[@class="info"][1] > dd > a}).map{|t| t.inner_html.to_s.toutf8 }
-      text = (@page/%{div[@class="contents ss"]})[0].inner_html.to_s.toutf8
+      text = ""
+      text_node = @page/%{div[@class="contents ss"]}
+      text_node.children.each do |node|
+        text += node.inner_html.to_s.toutf8.strip
+      end
       aft = @page/%{div[@class="aft"]}
       ps = (aft.size > 0) ? aft[0].inner_html.to_s.toutf8 : ""
       author_name = (@page/%{div[@class="author"] b})[0].inner_html.to_s.toutf8
