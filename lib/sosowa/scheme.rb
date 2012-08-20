@@ -55,8 +55,8 @@ module Sosowa
             :id => id,
             :point => point,
             :name => bobj[0],
-            :created_at => Time.parse(bobj[1].gsub(/[^\/\d\s:]/, "")),
-            :text => element[1].inner_html.to_s.toutf8.strip
+            :created_at => bobj[1] ? Time.parse(bobj[1].gsub(/[^\/\d\s:]/, "")) : nil,
+            :text => element[1] ? element[1].inner_html.to_s.toutf8.strip : nil
           )
           comments << comment
         end
