@@ -24,14 +24,12 @@ module Sosowa
     def initialize(args)
       @log = args[:log] || 0
       @key = args[:key]
-      @agent = Mechanize.new
       @page = nil
       super(fetch(@log, @key))
     end
     
     def fetch(log, key)
-      params = Sosowa.serialize_parameter({:mode => :read, :log => log, :key => key})
-      @page = @agent.get(URI.join(Sosowa::BASE_URL, params))
+      @page = Sosowa.send_req({:mode => :read, :log => log, :key => key})
       title = (@page/%{div[@class="header"] > h1})[0].inner_html.to_s.toutf8.strip
       tags = (@page/%{dl[@class="info"][1] > dd > a}).map{|t| t.inner_html.to_s.toutf8 }
       text = ""

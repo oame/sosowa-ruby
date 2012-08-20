@@ -1,7 +1,8 @@
 # coding: utf-8
 
 require "kconv"
-require "mechanize"
+require "nokogiri"
+require "net/http"
 require "time"
 require "uri"
 
@@ -11,7 +12,7 @@ require "sosowa/scheme"
 require "sosowa/parser"
 
 module Sosowa
-  BASE_URL = "http://coolier.sytes.net:8080/sosowa/ssw_l/"
+  BASE_URL = URI.parse("http://coolier.sytes.net:8080/sosowa/ssw_l/")
 
   protected
   
@@ -25,6 +26,18 @@ module Sosowa
     end
     param = ant.inject(""){|k,v|k+"&#{v[0]}=#{URI.escape(v[1])}"}.sub!(/^&/,"?")
     return param ? param : ""
+  end
+
+  def self.send_req(args)
+    params = serialize_parameter(args)
+    path = BASE_URL.path.dup.concat(params)
+
+    Net::HTTP.version_1_2
+    Net::HTTP.start(BASE_URL.host, BASE_URL.port) do |http|
+      response = http.get(path, 'User-Agent' => "Sosowa Ruby Wrapper #{Sosowa::VERSION}")
+      return Nokogiri::HTML(response.body.toutf8)
+    end
+    return false
   end
 
   public
