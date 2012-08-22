@@ -36,7 +36,6 @@ module Sosowa
   def self.send_req(args)
     params = serialize_parameter(args)
     path = File.join(BASE_URL.path, params)
-    pp path
 
     Net::HTTP.version_1_2
     Net::HTTP.start(BASE_URL.host, BASE_URL.port) do |http|

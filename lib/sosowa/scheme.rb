@@ -132,7 +132,10 @@ module Sosowa
         :log => @log,
         :target => :res
       })
-      post_params = Sosowa.serialize_parameter({:body => text.tosjis}.update(params.map{|p| p.tosjis}), false)
+      params.each do |k, v|
+        params[k] = v.tosjis
+      end
+      post_params = Sosowa.serialize_parameter({:body => text.tosjis}.update(params), false)
       req = Net::HTTP::Post.new(File.join(BASE_URL.path, post_uri_params))
       req["Cookie"] = cookie
       req["User-Agent"] = "Sosowa Ruby Wrapper #{Sosowa::VERSION}"
