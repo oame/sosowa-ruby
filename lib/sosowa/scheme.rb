@@ -104,7 +104,7 @@ module Sosowa
         :log => @log,
         :target => :res
       })
-      post_params = Sosowa.serialize_parameter({:body => "#EMPTY#".tosjis, :point => point}), false)
+      post_params = Sosowa.serialize_parameter({:body => "#EMPTY#".tosjis, :point => point}, false)
       req = Net::HTTP::Post.new(File.join(BASE_URL.path, post_uri_params))
       req["Cookie"] = cookie
       req["User-Agent"] = "Sosowa Ruby Wrapper #{Sosowa::VERSION}"
