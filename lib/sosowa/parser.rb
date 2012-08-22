@@ -46,8 +46,8 @@ module Sosowa
           log = parse_absolute_log_number(page)
           key = tr.search(%{td[@class="title cell_title"] > a})[0].attributes["href"].value.gsub(/^.+key=(.+?)&.+$/, '\1').to_i
           author = tr.search(%{td[@class="cell_author"]})[0].inner_html.to_s.strip
-          created_at = Time.parse(tr.search(%{td[@class="cell_created"]})[0].inner_html.to_s.strip)
-          updated_at = Time.parse(tr.search(%{td[@class="cell_lastup"]})[0].inner_html.to_s.strip)
+          created_at = Time.parse(tr.search(%{td[@class="cell_created"]})[0].inner_html.to_s.strip).strftime("%Y/%m/%d %H:%M:%S")
+          updated_at = Time.parse(tr.search(%{td[@class="cell_lastup"]})[0].inner_html.to_s.strip).strftime("%Y/%m/%d %H:%M:%S")
           eval = tr.search(%{td[@class="cell_eval"]})[0].inner_html.to_s.strip.split("/")
           review_count = eval[1].to_i
           comment_count = eval[0].to_i
