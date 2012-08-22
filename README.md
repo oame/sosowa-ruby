@@ -8,7 +8,7 @@ samples/に各種サンプルが入っています。
 ## Requirements
 
 * Ruby 1.9.x
-* mechanize gem
+* Nokogiri gem
 
 ## Installation
 
