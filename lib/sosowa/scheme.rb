@@ -21,6 +21,10 @@ module Sosowa
   end
   
   class Novel < Scheme
+    attr_reader :log
+    attr_reader :key
+    attr_reader :page
+
     def initialize(args)
       @log = args[:log] || 0
       @key = args[:key]
@@ -81,18 +85,59 @@ module Sosowa
     end
     
     def simple_rating(point)
-      form = @page.forms[0]
-      form.click_button(form.button_with(:value => point.to_s))
+      # Get cookie
+      get_params = Sosowa.serialize_parameter({
+        :mode => :read,
+        :key => @key,
+        :log => @log
+      })
+      http = Net::HTTP.new(BASE_URL.host, BASE_URL.port)
+      req = Net::HTTP::Get.new(BASE_URL.path)
+      req["User-Agent"] = "Sosowa Ruby Wrapper #{Sosowa::VERSION}"
+      res = http.request(req, get_params)
+      cookie = res["Set-Cookie"]
+
+      # Post Comment
+      post_uri_params = Sosowa.serialize_parameter({
+        :mode => :update,
+        :key => @key,
+        :log => @log,
+        :target => :res
+      })
+      post_params = Sosowa.serialize_parameter({:body => "#EMPTY#".tosjis, :point => point}), false)
+      req = Net::HTTP::Post.new(File.join(BASE_URL.path, post_uri_params))
+      req["Cookie"] = cookie
+      req["User-Agent"] = "Sosowa Ruby Wrapper #{Sosowa::VERSION}"
+      res = http.request(req, post_params)
+      return res
     end
     
-    def comment(text, params)
-      form = @page.forms[1]
-      form.field_with(:name => "name").value = params[:name] || nil
-      form.field_with(:name => "body").value = text
-      form.field_with(:name => "pass").value = params[:pass] || nil
-      form.field_with(:name => "mail").value = params[:mail] || nil
-      form.field_with(:name => "point").option_with(:value => (params[:point].to_s || "0")).select
-      form.click_button
+    def comment(text, params={})
+      # Get cookie
+      get_params = Sosowa.serialize_parameter({
+        :mode => :read,
+        :key => @key,
+        :log => @log
+      })
+      http = Net::HTTP.new(BASE_URL.host, BASE_URL.port)
+      req = Net::HTTP::Get.new(BASE_URL.path)
+      req["User-Agent"] = "Sosowa Ruby Wrapper #{Sosowa::VERSION}"
+      res = http.request(req, get_params)
+      cookie = res["Set-Cookie"]
+
+      # Post Comment
+      post_uri_params = Sosowa.serialize_parameter({
+        :mode => :update,
+        :key => @key,
+        :log => @log,
+        :target => :res
+      })
+      post_params = Sosowa.serialize_parameter({:body => text.tosjis}.update(params.map{|p| p.tosjis}), false)
+      req = Net::HTTP::Post.new(File.join(BASE_URL.path, post_uri_params))
+      req["Cookie"] = cookie
+      req["User-Agent"] = "Sosowa Ruby Wrapper #{Sosowa::VERSION}"
+      res = http.request(req, post_params)
+      return res
     end
     
     def plain

@@ -18,19 +18,25 @@ module Sosowa
   
   # @param [Hash] parameter
   # @return [String] URL Serialized parameters
-  def self.serialize_parameter parameter
+  def self.serialize_parameter(parameter, add_prefix=true)
     return "" unless parameter.class == Hash
     ant = Hash.new
     parameter.each do |key, value|
       ant[key.to_sym] = value.to_s
     end
-    param = ant.inject(""){|k,v|k+"&#{v[0]}=#{URI.escape(v[1])}"}.sub!(/^&/,"?")
+    param = ant.inject(""){|k,v|k+"&#{v[0]}=#{URI.escape(v[1])}"}
+    if add_prefix
+      param.sub!(/^&/,"?") 
+    else
+      param.sub!(/^&/,"") 
+    end
     return param ? param : ""
   end
 
   def self.send_req(args)
     params = serialize_parameter(args)
-    path = BASE_URL.path.dup.concat(params)
+    path = File.join(BASE_URL.path, params)
+    pp path
 
     Net::HTTP.version_1_2
     Net::HTTP.start(BASE_URL.host, BASE_URL.port) do |http|
