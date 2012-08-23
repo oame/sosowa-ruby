@@ -25,9 +25,6 @@ samples/に各種サンプルが入っています。
 	novel = Sosowa.get(:log => 156, :key => 1320873807)
 	puts novel.text
 	
-	# "ナズーリン"がタイトルに含まれているSSの数を出力する
-	puts Sosowa.search("ナズーリン", :type => :title).size
-
 ## Contributing
 
 1. Fork it
