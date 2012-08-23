@@ -14,5 +14,5 @@ Gem::Specification.new do |gem|
   gem.name          = "sosowa"
   gem.require_paths = ["lib"]
   gem.version       = Sosowa::VERSION
-  gem.add_dependency "nokogiri"
+  gem.add_dependency "megalith"
 end

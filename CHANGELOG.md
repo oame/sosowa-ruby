@@ -1,3 +1,8 @@
+## 2.0
+
+* 処理をmegalith gemに任せる形に
+* Novel.ps => Novel.aft
+
 ## 1.1
 
 * コメント関連のバグを修成
