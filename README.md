@@ -8,7 +8,6 @@ samples/に各種サンプルが入っています。
 ## Requirements
 
 * Ruby 1.9.x
-* Nokogiri gem
 
 ## Installation
 
