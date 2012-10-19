@@ -1,17 +1,17 @@
 # coding: utf-8
 
-require "megalith"
+require "megalopolis"
 
 $LOAD_PATH.unshift(File.expand_path("../", __FILE__))
 require "sosowa/version"
 
 module Sosowa
-  BASE_URL = "http://coolier.sytes.net:8080/sosowa/ssw_l/"
+  BASE_URL = "http://coolier.sytes.net/sosowa/ssw_l/"
   
   def self.get(args={})
     args[:log] ||= 0
-    megalith = Megalith.new(BASE_URL)
-    megalith.get args
+    megalopolis = Megalopolis.new(BASE_URL)
+    megalopolis.get args
   end
   
   #def self.search(query, args={})

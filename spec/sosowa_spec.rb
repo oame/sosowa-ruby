@@ -8,35 +8,35 @@ describe Sosowa, "が #get, :log => 0 を呼ぶ時は" do
     @log = Sosowa.get :log => 0
   end
   
-  it "Megalith::Subjectを返すこと" do
-    @log.class.should == Megalith::Subject
+  it "Megalopolis::Subjectを返すこと" do
+    @log.class.should == Megalopolis::Subject
   end
 
-  it "最初がMegalith::Indexであること" do
-    @log.first.class.should == Megalith::Index
+  it "最初がMegalopolis::Indexであること" do
+    @log.first.class.should == Megalopolis::Index
   end
 
   it "最初のタイトルがStringであること" do
     @log.first.title.class.should == String
   end
 
-  it "#next_pageがMegalith::Subjectを返すこと" do
-    @log.next_page.class.should == Megalith::Subject
+  it "#next_pageがMegalopolis::Subjectを返すこと" do
+    @log.next_page.class.should == Megalopolis::Subject
   end
 
-  it "#prev_pageがMegalith::Subjectを返すこと" do
-    @log.prev_page.class.should == Megalith::Subject
+  it "#prev_pageがMegalopolis::Subjectを返すこと" do
+    @log.prev_page.class.should == Megalopolis::Subject
   end
 
   it "#latest_logがFixnumを返すこと" do
     @log.latest_log.class.should == Fixnum
   end
 
-  it "最初を#fetchしたらMegalith::Novelを返すこと" do
-    @log.first.fetch.class.should == Megalith::Novel
+  it "最初を#fetchしたらMegalopolis::Novelを返すこと" do
+    @log.first.fetch.class.should == Megalopolis::Novel
   end
 
-  it "最初を#fetchしたMegalith::Novel#titleがStringなこと" do
-    @log.first.fetch.title.class.should == String
+  it "最初を#fetchしたMegalopolis::Novel#entry#titleがStringなこと" do
+    @log.first.fetch.entry.title.class.should == String
   end
 end

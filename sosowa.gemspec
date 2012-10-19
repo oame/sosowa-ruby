@@ -2,7 +2,7 @@
 require File.expand_path('../lib/sosowa/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Oame"]
+  gem.authors       = ["o_ame"]
   gem.email         = ["oame@oameya.com"]
   gem.description   = %q{Sosowa Parser for Ruby}
   gem.summary       = %q{Sosowa Parser for Ruby 1.9.x.}
@@ -14,5 +14,5 @@ Gem::Specification.new do |gem|
   gem.name          = "sosowa"
   gem.require_paths = ["lib"]
   gem.version       = Sosowa::VERSION
-  gem.add_dependency "megalith"
+  gem.add_dependency "megalopolis"
 end
