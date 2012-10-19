@@ -2,10 +2,10 @@
 
 [![Build Status](https://secure.travis-ci.org/oame/sosowa-ruby.png)](http://travis-ci.org/oame/sosowa-ruby)
 
-創想話パーサー for Ruby 1.9.x<br>
+創想話パーサー for Ruby<br>
 samples/に各種サンプルが入っています。
 
-## Requirements
+## Requirement
 
 * Ruby 1.9.x
 
