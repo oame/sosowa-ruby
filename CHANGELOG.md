@@ -1,3 +1,7 @@
+## 3.0
+
+* Megalopolis版東方創想話に対応しました
+
 ## 2.0
 
 * 処理をmegalith gemに任せる形に
