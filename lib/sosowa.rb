@@ -9,7 +9,6 @@ module Sosowa
   BASE_URL = "http://coolier.sytes.net/sosowa/ssw_l/"
   
   def self.get(args={})
-    args[:log] ||= 0
     megalopolis = Megalopolis.new(BASE_URL)
     megalopolis.get args
   end
