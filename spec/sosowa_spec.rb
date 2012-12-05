@@ -24,8 +24,8 @@ describe Sosowa, "が #get, :log => 0 を呼ぶ時は" do
     @log.next_page.class.should == Megalopolis::Subject
   end
 
-  it "#prev_pageがMegalopolis::Subjectを返すこと" do
-    @log.prev_page.class.should == Megalopolis::Subject
+  it "#next_pageの#prev_pageがMegalopolis::Subjectを返すこと" do
+    @log.next_page.prev_page.class.should == Megalopolis::Subject
   end
 
   it "#latest_logがFixnumを返すこと" do
