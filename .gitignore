@@ -1,6 +1,5 @@
 *.gem
 *.rbc
-.bundle
 .config
 .yardoc
 .DS_Store
@@ -15,3 +14,7 @@ rdoc
 spec/reports
 test
 tmp
+
+# Bundler
+.bundle
+/vendor/

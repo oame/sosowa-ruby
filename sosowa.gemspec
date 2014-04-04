@@ -5,7 +5,7 @@ Gem::Specification.new do |gem|
   gem.authors       = ["o_ame"]
   gem.email         = ["oame@oameya.com"]
   gem.description   = %q{Sosowa Parser for Ruby}
-  gem.summary       = %q{Sosowa Parser for Ruby 1.9.x.}
+  gem.summary       = %q{Sosowa Parser for Ruby}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($\)

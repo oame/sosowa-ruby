@@ -7,7 +7,7 @@ samples/に各種サンプルが入っています。
 
 ## Requirement
 
-* Ruby 1.9.x
+* Ruby 1.9.3 or higher
 
 ## Installation
 
@@ -16,15 +16,15 @@ samples/に各種サンプルが入っています。
 ## Usage
 
 	require "sosowa"
-	
+
 	# 最新版から最初のSSを持ってくる
 	novel = Sosowa.get.first
 	puts novel.text
-	
+
 	# 作品集番号156の1320873807を持ってくる
 	novel = Sosowa.get(:log => 156, :key => 1320873807)
 	puts novel.text
-	
+
 ## Contributing
 
 1. Fork it
